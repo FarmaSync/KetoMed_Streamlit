@@ -340,9 +340,15 @@ def main():
         config['cookie']['expiry_days']
     )
     
-    authenticator.login(location='sidebar')
+    
+    if st.session_state['authentication_status'] is None:
+        authenticator.login(location='sidebar')
+        
+    elif st.session_state['authentication_status'] is False:
+        st.sidebar.error('Gebruikersnaam/wachtwoord is incorrect')
+        authenticator.login(location='sidebar')   
 
-    if st.session_state['authentication_status']:
+    elif st.session_state['authentication_status']:
         st.success(f'Welkom *{st.session_state["name"]}*')
         main_app()
         authenticator.logout('Uitloggen', 'sidebar')
@@ -350,13 +356,6 @@ def main():
         # Optionally, save the config if needed
         with open('config.yaml', 'w') as file:
             yaml.dump(config, file, default_flow_style=False)
-
-    elif st.session_state['authentication_status'] is False:
-        st.sidebar.error('Gebruikersnaam/wachtwoord is incorrect')
-    
-    elif st.session_state['authentication_status'] is None:
-        st.sidebar.warning('Voer a.u.b. je gebruikersnaam en wachtwoord in')
-
 
 if __name__ == "__main__":
     main()
