@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import os
 
 # Constants
-DRUGS_CSV = 'data/drugs.csv'
+DRUGS_CSV = 'data/labeled_drugs.csv'
 INACTIVITY_TIMEOUT = 30  # in minutes
 
 # Initialize session state
@@ -19,7 +19,7 @@ if 'last_active' not in st.session_state:
 # Function to load drug data
 @st.cache_data
 def load_drug_data():
-    df = pd.read_csv(DRUGS_CSV)
+    df = pd.read_csv(DRUGS_CSV, encoding='latin-1')
     return df
 
 # Function to perform simple search (exact and substring matches)
@@ -59,39 +59,39 @@ def main_app():
         search_term = st.text_input("Voer merknaam of werkzame stof in")
         if search_term:
             # Simple search on brand name and active component
-            brand_names = drug_df['brand_name'].tolist()
-            active_components = drug_df['active_component'].tolist()
+            brand_names = drug_df['NMNAAM'].tolist()
+            active_components = drug_df['ATOMS'].tolist()
             combined = brand_names + active_components
             results = simple_search(search_term, combined)
             
             # Retrieve matching rows
             filtered_df = drug_df[
-                drug_df['brand_name'].isin(results) |
-                drug_df['active_component'].isin(results)
+                drug_df['NMNAAM'].isin(results) |
+                drug_df['ATOMS'].isin(results)
             ]
             
             # Apply filters
             st.sidebar.subheader("Filters")
-            admin_route = st.sidebar.multiselect("Toedieningsweg", options=drug_df['administration_route'].unique())
-            keto_status = st.sidebar.multiselect("Ketogene Status", options=drug_df['ketogenic_status'].unique())
+            admin_route = st.sidebar.multiselect("Toedieningsweg", options=drug_df['THNM50'].unique())
+            keto_status = st.sidebar.multiselect("Ketogene Status", options=drug_df['Handelsproduct Status'].unique())
             if admin_route:
-                filtered_df = filtered_df[filtered_df['administration_route'].isin(admin_route)]
+                filtered_df = filtered_df[filtered_df['THNM50'].isin(admin_route)]
             if keto_status:
-                filtered_df = filtered_df[filtered_df['ketogenic_status'].isin(keto_status)]
+                filtered_df = filtered_df[filtered_df['Handelsproduct Status'].isin(keto_status)]
             
             st.write(f"Aantal resultaten: {len(filtered_df)}")
             for index, row in filtered_df.iterrows():
-                with st.expander(f"{row['brand_name']} ({row['active_component']})"):
-                    st.write(f"**Toedieningsweg:** {row['administration_route']}")
-                    st.write(f"**Ketogene Status:** {row['ketogenic_status']}")
+                with st.expander(f"{row['NMNAAM']} ({row['ATOMS']})"):
+                    st.write(f"**Toedieningsweg:** {row['THNM50']}")
+                    st.write(f"**Ketogene Status:** {row['Handelsproduct Status']}")
                     # Bookmark button
-                    if row['drug_id'] in st.session_state.bookmarks:
-                        if st.button("Verwijder Bookmark", key=f"remove_{row['drug_id']}"):
-                            st.session_state.bookmarks.remove(row['drug_id'])
+                    if row['HPKODE'] in st.session_state.bookmarks:
+                        if st.button("Verwijder Bookmark", key=f"remove_{row['HPKODE']}"):
+                            st.session_state.bookmarks.remove(row['HPKODE'])
                             st.success("Bookmark verwijderd.")
                     else:
-                        if st.button("Bookmark Toevoegen", key=f"add_{row['drug_id']}"):
-                            st.session_state.bookmarks.append(row['drug_id'])
+                        if st.button("Bookmark Toevoegen", key=f"add_{row['HPKODE']}"):
+                            st.session_state.bookmarks.append(row['HPKODE'])
                             st.success("Bookmark toegevoegd.")
                     # Add to search history
                     st.session_state.search_history.append({'term': search_term, 'timestamp': datetime.now()})
@@ -99,13 +99,13 @@ def main_app():
     elif choice == "Boekmarks":
         st.header("Uw Boekmarks")
         if st.session_state.bookmarks:
-            bookmarked_drugs = drug_df[drug_df['drug_id'].isin(st.session_state.bookmarks)]
+            bookmarked_drugs = drug_df[drug_df['HPKODE'].isin(st.session_state.bookmarks)]
             for index, row in bookmarked_drugs.iterrows():
-                with st.expander(f"{row['brand_name']} ({row['active_component']})"):
-                    st.write(f"**Toedieningsweg:** {row['administration_route']}")
-                    st.write(f"**Ketogene Status:** {row['ketogenic_status']}")
-                    if st.button("Verwijder Bookmark", key=f"remove_bookmark_{row['drug_id']}"):
-                        st.session_state.bookmarks.remove(row['drug_id'])
+                with st.expander(f"{row['NMNAAM']} ({row['ATOMS']})"):
+                    st.write(f"**Toedieningsweg:** {row['THNM50']}")
+                    st.write(f"**Ketogene Status:** {row['Handelsproduct Status']}")
+                    if st.button("Verwijder Bookmark", key=f"remove_bookmark_{row['HPKODE']}"):
+                        st.session_state.bookmarks.remove(row['HPKODE'])
                         st.success("Bookmark verwijderd.")
         else:
             st.info("U heeft nog geen boekmarks.")
