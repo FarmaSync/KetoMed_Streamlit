@@ -70,7 +70,7 @@ def main_app():
     menu = ["Zoeken", 
             #"Favorieten", 
             #"Recent", 
-            #"FAQ", 
+            "FAQ", 
             "Voorwaarden", 
             #"Reset Sessies"
             ]
@@ -224,24 +224,88 @@ def main_app():
         else:
             st.info("Geen recente zoekopdrachten gevonden.")
     
-    elif choice == "FAQ":
-        st.header("Veelgestelde Vragen")
-        st.write("""
-        **Vraag 1:** Hoe gebruik ik de zoekfunctie?
+    elif choice == "Help":
+        st.header("📖 Help & Ondersteuning")
         
-        **Antwoord:** Voer de merknaam of werkzame stof in het zoekveld in en selecteer uit de suggesties.
+        st.markdown("""
+        ### Welkom bij Ketomed!
         
-        **Vraag 2:** Hoe voeg ik een geneesmiddel toe aan mijn Favorieten?
+        **Ketomed** is uw betrouwbare partner voor het zoeken en beheren van geneesmiddelen op basis van hun ketogene status. Deze Help-pagina is ontworpen om u te begeleiden bij het optimaal benutten van alle functies van onze applicatie.
+        """)
         
-        **Antwoord:** Klik op de "Bookmark Toevoegen" knop naast het gewenste geneesmiddel.
+        st.image("https://via.placeholder.com/800x200.png?text=Ketomed+Help+Banner", use_column_width=True)
         
-        **Vraag 3:** Hoe kan ik mijn Favorieten beheren?
+        st.markdown("""
+        ---
         
-        **Antwoord:** Ga naar het "Favorieten" menu om uw opgeslagen geneesmiddelen te bekijken of te verwijderen.
+        ### 🔍 Hoe te Gebruiken
+        
+        #### 1. Zoeken naar Geneesmiddelen
+        - Gebruik de zoekbalk om te zoeken op **merknaam**, **werkzame stof**, **ATC-code** of **HPK-code**.
+        - Typ een zoekterm en druk op Enter om resultaten te bekijken.
+        
+        #### 2. Filters Toepassen
+        - Na het invoeren van een zoekterm verschijnen er twee filteropties:
+            - **Toedieningsweg**: Selecteer één of meerdere toedieningswegen om de zoekresultaten te verfijnen.
+            - **Ketogene Status**: Filter op **Ketoproof**, **Niet Ketoproof** of **Onbekend**.
+        - Kies de gewenste filters om de resultaten aan te passen aan uw behoeften.
+        
+        #### 3. Boekmarks Beheren
+        - Klik op **"Bookmark Toevoegen"** naast een geneesmiddel om het op te slaan.
+        - Ga naar de **"Boekmarks"** sectie in de sidebar om uw opgeslagen geneesmiddelen te bekijken of te verwijderen.
+        
+        ---
+        
+        ### ❓ Veelgestelde Vragen
+        
+        **Vraag 1:** *Hoe kan ik een geneesmiddel toevoegen aan mijn boekmarks?*
+        
+        **Antwoord:** Zoek naar het gewenste geneesmiddel, klik op de expander om de details te zien en klik vervolgens op **"Bookmark Toevoegen"**.
+        
+        **Vraag 2:** *Hoe verwijder ik een geneesmiddel uit mijn boekmarks?*
+        
+        **Antwoord:** Ga naar de **"Boekmarks"** sectie, open de gewenste boekmark en klik op **"Verwijder Bookmark"**.
+        
+        **Vraag 3:** *Wat gebeurt er na 30 minuten inactiviteit?*
+        
+        **Antwoord:** Na 30 minuten inactiviteit worden uw boekmarks en zoekgeschiedenis automatisch gereset voor uw privacy en veiligheid.
+        
+        ---
+        
+        ### 📞 Contactinformatie
+        
+        Heeft u nog vragen of ondervindt u problemen? Neem gerust contact met ons op!
+        
+        - **E-mail:** support@ketomed.nl
+        - **Telefoon:** +31 20 123 4567
+        - **Adres:** Ketomed BV, Straatnaam 123, 1000 AA Amsterdam
+        
+        ### 💡 Feedback Geven
+        
+        Uw feedback is waardevol voor ons! Laat ons weten hoe we **Ketomed** kunnen verbeteren.
+        
+        - **Feedbackformulier:** [Klik hier om feedback te geven](https://example.com/feedback)
+        - **Sociale Media:** Volg ons op [LinkedIn](https://linkedin.com) en [Twitter](https://twitter.com).
         """)
     
+    elif choice == "FAQ":
+        st.header("❓ Veelgestelde Vragen")
+        st.write("""
+        **Vraag 1:** *Hoe kan ik een geneesmiddel toevoegen aan mijn Favorieten?*
+        
+        **Antwoord:** Zoek naar het gewenste geneesmiddel, klik op de expander om de details te zien en klik vervolgens op **"Bookmark Toevoegen"**.
+        
+        **Vraag 2:** *Hoe verwijder ik een geneesmiddel uit mijn Favorieten?*
+        
+        **Antwoord:** Ga naar de **"Favorieten"** sectie, open de gewenste favoriet en klik op **"Verwijder Bookmark"**.
+        
+        **Vraag 3:** *Wat gebeurt er na 30 minuten inactiviteit?*
+        
+        **Antwoord:** Na 30 minuten inactiviteit worden uw favorieten en zoekgeschiedenis automatisch gereset voor uw privacy en veiligheid.
+        """)
+
     elif choice == "Voorwaarden":
-        st.header("Algemene Voorwaarden")
+        st.header("📜 Algemene Voorwaarden")
         st.write("""
         **Gebruik van Ketomed**
         
