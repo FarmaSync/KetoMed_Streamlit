@@ -72,6 +72,7 @@ def main_app():
             #"Recent", 
             "FAQ", 
             "Voorwaarden", 
+            "Help",
             #"Reset Sessies"
             ]
     st.sidebar.subheader('Menu')
@@ -230,11 +231,9 @@ def main_app():
         st.markdown("""
         ### Welkom bij Ketomed!
         
-        **Ketomed** is uw betrouwbare partner voor het zoeken en beheren van geneesmiddelen op basis van hun ketogene status. Deze Help-pagina is ontworpen om u te begeleiden bij het optimaal benutten van alle functies van onze applicatie.
+        **Ketomed** helpt u bij het zoeken naar geneesmiddelen op basis van hun ketogene status. Deze Help-pagina is ontworpen om u te begeleiden bij het optimaal benutten van alle functies van onze applicatie.
         """)
-        
-        st.image("https://via.placeholder.com/800x200.png?text=Ketomed+Help+Banner", use_column_width=True)
-        
+                
         st.markdown("""
         ---
         
@@ -250,59 +249,41 @@ def main_app():
             - **Ketogene Status**: Filter op **Ketoproof**, **Niet Ketoproof** of **Onbekend**.
         - Kies de gewenste filters om de resultaten aan te passen aan uw behoeften.
         
-        #### 3. Boekmarks Beheren
-        - Klik op **"Bookmark Toevoegen"** naast een geneesmiddel om het op te slaan.
-        - Ga naar de **"Boekmarks"** sectie in de sidebar om uw opgeslagen geneesmiddelen te bekijken of te verwijderen.
-        
-        ---
-        
-        ### ❓ Veelgestelde Vragen
-        
-        **Vraag 1:** *Hoe kan ik een geneesmiddel toevoegen aan mijn boekmarks?*
-        
-        **Antwoord:** Zoek naar het gewenste geneesmiddel, klik op de expander om de details te zien en klik vervolgens op **"Bookmark Toevoegen"**.
-        
-        **Vraag 2:** *Hoe verwijder ik een geneesmiddel uit mijn boekmarks?*
-        
-        **Antwoord:** Ga naar de **"Boekmarks"** sectie, open de gewenste boekmark en klik op **"Verwijder Bookmark"**.
-        
-        **Vraag 3:** *Wat gebeurt er na 30 minuten inactiviteit?*
-        
-        **Antwoord:** Na 30 minuten inactiviteit worden uw boekmarks en zoekgeschiedenis automatisch gereset voor uw privacy en veiligheid.
-        
-        ---
+        #### 3. Favorieten Beheren
+        - Klik op **"Favoriet Toevoegen"** naast een geneesmiddel om het op te slaan.
+        - Ga naar de **"Favorieten"** sectie in de sidebar om uw opgeslagen geneesmiddelen te bekijken of te verwijderen.
+
         
         ### 📞 Contactinformatie
         
         Heeft u nog vragen of ondervindt u problemen? Neem gerust contact met ons op!
         
-        - **E-mail:** support@ketomed.nl
-        - **Telefoon:** +31 20 123 4567
-        - **Adres:** Ketomed BV, Straatnaam 123, 1000 AA Amsterdam
+        - **E-mail:** s.elabdouni@erasmusmc.nl
         
         ### 💡 Feedback Geven
         
         Uw feedback is waardevol voor ons! Laat ons weten hoe we **Ketomed** kunnen verbeteren.
         
-        - **Feedbackformulier:** [Klik hier om feedback te geven](https://example.com/feedback)
-        - **Sociale Media:** Volg ons op [LinkedIn](https://linkedin.com) en [Twitter](https://twitter.com).
         """)
     
     elif choice == "FAQ":
         st.header("❓ Veelgestelde Vragen")
-        st.write("""
-        **Vraag 1:** *Hoe kan ik een geneesmiddel toevoegen aan mijn Favorieten?*
         
-        **Antwoord:** Zoek naar het gewenste geneesmiddel, klik op de expander om de details te zien en klik vervolgens op **"Bookmark Toevoegen"**.
+        with st.expander("🔹 Hoe kan ik een geneesmiddel toevoegen aan mijn Favorieten?"):
+            st.write("""
+            Zoek naar het gewenste geneesmiddel, klik op de expander om de details te zien en klik vervolgens op **"Bookmark Toevoegen"**.
+            """)
         
-        **Vraag 2:** *Hoe verwijder ik een geneesmiddel uit mijn Favorieten?*
+        with st.expander("🔹 Hoe verwijder ik een geneesmiddel uit mijn Favorieten?"):
+            st.write("""
+            Ga naar de **"Favorieten"** sectie, open de gewenste favoriet en klik op **"Verwijder Bookmark"**.
+            """)
         
-        **Antwoord:** Ga naar de **"Favorieten"** sectie, open de gewenste favoriet en klik op **"Verwijder Bookmark"**.
-        
-        **Vraag 3:** *Wat gebeurt er na 30 minuten inactiviteit?*
-        
-        **Antwoord:** Na 30 minuten inactiviteit worden uw favorieten en zoekgeschiedenis automatisch gereset voor uw privacy en veiligheid.
-        """)
+        with st.expander("🔹 Wat gebeurt er na 30 minuten inactiviteit?"):
+            st.write("""
+            Na 30 minuten inactiviteit worden uw favorieten en zoekgeschiedenis automatisch gereset voor uw privacy en veiligheid.
+            """)
+
 
     elif choice == "Voorwaarden":
         st.header("📜 Algemene Voorwaarden")
