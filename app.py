@@ -1,7 +1,6 @@
 # app.py
 import streamlit as st
 import pandas as pd
-from fuzzywuzzy import process
 from datetime import datetime, timedelta
 import os
 
@@ -18,15 +17,18 @@ if 'last_active' not in st.session_state:
     st.session_state.last_active = datetime.now()
 
 # Function to load drug data
-@st.cache(allow_output_mutation=True)
+@st.cache_data
 def load_drug_data():
     df = pd.read_csv(DRUGS_CSV)
     return df
 
-# Function to perform fuzzy search
-def fuzzy_search(query, choices, limit=5):
-    results = process.extract(query, choices, limit=limit)
-    return [result[0] for result in results]
+# Function to perform simple search (exact and substring matches)
+def simple_search(query, choices):
+    # Convert query to lowercase for case-insensitive search
+    query = query.lower()
+    # Filter choices that contain the query as a substring
+    results = [choice for choice in choices if query in choice.lower()]
+    return results
 
 # Function to update last active timestamp
 def update_last_active():
@@ -38,7 +40,7 @@ def check_inactivity():
     if now - st.session_state.last_active > timedelta(minutes=INACTIVITY_TIMEOUT):
         st.session_state.bookmarks = []
         st.session_state.search_history = []
-        st.warning("You have been logged out due to inactivity.")
+        st.warning("Sessies zijn gereset vanwege inactiviteit.")
         st.session_state.last_active = datetime.now()
 
 # UI Components
@@ -47,7 +49,7 @@ def main_app():
     check_inactivity()
     
     st.sidebar.title("Ketomed")
-    menu = ["Zoeken", "Boekmarks", "Recente Zoeken", "FAQ", "Voorwaarden", "Reset Session"]
+    menu = ["Zoeken", "Boekmarks", "Recente Zoeken", "FAQ", "Voorwaarden", "Reset Sessies"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     drug_df = load_drug_data()
@@ -56,25 +58,29 @@ def main_app():
         st.header("Zoek naar een geneesmiddel")
         search_term = st.text_input("Voer merknaam of werkzame stof in")
         if search_term:
-            # Fuzzy search on brand name and active component
+            # Simple search on brand name and active component
             brand_names = drug_df['brand_name'].tolist()
             active_components = drug_df['active_component'].tolist()
             combined = brand_names + active_components
-            suggestions = fuzzy_search(search_term, combined)
-            results = drug_df[
-                drug_df['brand_name'].str.contains('|'.join(suggestions), case=False, na=False) |
-                drug_df['active_component'].str.contains('|'.join(suggestions), case=False, na=False)
+            results = simple_search(search_term, combined)
+            
+            # Retrieve matching rows
+            filtered_df = drug_df[
+                drug_df['brand_name'].isin(results) |
+                drug_df['active_component'].isin(results)
             ]
+            
             # Apply filters
             st.sidebar.subheader("Filters")
             admin_route = st.sidebar.multiselect("Toedieningsweg", options=drug_df['administration_route'].unique())
             keto_status = st.sidebar.multiselect("Ketogene Status", options=drug_df['ketogenic_status'].unique())
             if admin_route:
-                results = results[results['administration_route'].isin(admin_route)]
+                filtered_df = filtered_df[filtered_df['administration_route'].isin(admin_route)]
             if keto_status:
-                results = results[results['ketogenic_status'].isin(keto_status)]
-            st.write(f"Aantal resultaten: {len(results)}")
-            for index, row in results.iterrows():
+                filtered_df = filtered_df[filtered_df['ketogenic_status'].isin(keto_status)]
+            
+            st.write(f"Aantal resultaten: {len(filtered_df)}")
+            for index, row in filtered_df.iterrows():
                 with st.expander(f"{row['brand_name']} ({row['active_component']})"):
                     st.write(f"**Toedieningsweg:** {row['administration_route']}")
                     st.write(f"**Ketogene Status:** {row['ketogenic_status']}")
@@ -144,12 +150,12 @@ def main_app():
         Ketomed is niet aansprakelijk voor eventuele fouten in de gegevens of het gebruik van de applicatie.
         """)
     
-    elif choice == "Reset Session":
+    elif choice == "Reset Sessies":
         st.session_state.bookmarks = []
         st.session_state.search_history = []
         st.session_state.last_active = datetime.now()
         st.success("Sessies zijn gereset.")
-
+    
 # Main Application Logic
 def main():
     st.set_page_config(page_title="Ketomed", page_icon="💊", layout="wide")
