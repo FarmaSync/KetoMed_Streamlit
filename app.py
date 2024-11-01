@@ -3,10 +3,20 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
 import os
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
+
+
+
+
 
 # Constants
 DRUGS_CSV = 'data/labeled_drugs.csv'
 INACTIVITY_TIMEOUT = 30  # in minutes
+
+
+
 
 # Initialize session state
 if 'bookmarks' not in st.session_state:
@@ -61,11 +71,15 @@ def check_inactivity():
         st.warning("Sessies zijn gereset vanwege inactiviteit.")
         st.session_state.last_active = datetime.now()
 
+
 # UI Components
 def main_app():
+    #st.switch_page("app.py") #So that the login modal disappears
+
     update_last_active()
     check_inactivity()
-    
+
+
     # st.sidebar.title("Ketomed")
     menu = ["Zoeken", 
             #"Favorieten", 
@@ -316,7 +330,37 @@ def main():
         st.sidebar.image(logo_path, use_column_width=True)
     else:
         st.sidebar.write("![Logo](https://via.placeholder.com/150)")
-    main_app()
+    
+
+    # Load configuration
+    with open('config.yaml') as file:
+        config = yaml.load(file, Loader=SafeLoader)
+    
+    # Initialize the authenticator
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days']
+    )
+    
+    authenticator.login(location='sidebar')
+
+    if st.session_state['authentication_status']:
+        st.success(f'Welkom *{st.session_state["name"]}*')
+        main_app()
+        authenticator.logout('Uitloggen', 'sidebar')
+    
+        # Optionally, save the config if needed
+        with open('config.yaml', 'w') as file:
+            yaml.dump(config, file, default_flow_style=False)
+
+    elif st.session_state['authentication_status'] is False:
+        st.sidebar.error('Username/password is incorrect')
+    
+    elif st.session_state['authentication_status'] is None:
+        st.sidebar.warning('Please enter your username and password')
+
 
 if __name__ == "__main__":
     main()
