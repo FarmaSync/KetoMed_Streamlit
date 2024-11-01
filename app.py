@@ -26,9 +26,27 @@ def load_drug_data():
 def simple_search(query, choices):
     # Convert query to lowercase for case-insensitive search
     query = query.lower()
-    # Filter choices that contain the query as a substring
-    results = [choice for choice in choices if query in choice.lower()]
+    # Filter choices that contain the query as a substring and ensure choice is a string
+    results = [choice for choice in choices if isinstance(choice, str) and query in choice.lower()]
     return results
+
+# Define the desired order for Handelsproduct Status
+status_order = ['Yes', 'Unknown', 'No']
+
+# Function to map status to colored indicators using emojis
+def get_status_indicator(status):
+    status = str(status).strip()  # Ensure the status is a string and remove any leading/trailing whitespace
+    if status == 'Yes':
+        emoji = '🟢'
+        description = 'Ketoproof'
+    elif status == 'No':
+        emoji = '🔴'
+        description = 'Niet Ketoproof'
+    else:
+        emoji = '🟠'
+        description = 'Onbekend'
+    # Return the emoji and description as a string
+    return f"{emoji}"
 
 # Function to update last active timestamp
 def update_last_active():
@@ -56,54 +74,114 @@ def main_app():
 
     if choice == "Zoeken":
         st.header("Zoek naar een geneesmiddel")
-        search_term = st.text_input("Voer merknaam of werkzame stof in")
+        search_term = st.text_input("Voer merknaam, werkzame stof, ATC of HPK in")
+        
         if search_term:
             # Simple search on brand name and active component
-            brand_names = drug_df['NMNAAM'].tolist()
-            active_components = drug_df['ATOMS'].tolist()
-            combined = brand_names + active_components
+            brand_names = drug_df['NMNAAM'].fillna('').tolist()
+            active_components = drug_df['ATOMS'].fillna('').tolist()
+            drug_id = drug_df['HPKODE'].fillna('').tolist()
+            atcode = drug_df['ATCODE'].fillna('').tolist()
+            combined = brand_names + active_components + drug_id + atcode
             results = simple_search(search_term, combined)
             
             # Retrieve matching rows
             filtered_df = drug_df[
                 drug_df['NMNAAM'].isin(results) |
-                drug_df['ATOMS'].isin(results)
+                drug_df['ATOMS'].isin(results) |
+                drug_df['HPKODE'].isin(results)|
+                drug_df['ATCODE'].isin(results)
             ]
             
-            # Apply filters
-            st.sidebar.subheader("Filters")
-            admin_route = st.sidebar.multiselect("Toedieningsweg", options=drug_df['THNM50'].unique())
-            keto_status = st.sidebar.multiselect("Ketogene Status", options=drug_df['Handelsproduct Status'].unique())
+            # Convert 'Handelsproduct Status' to a categorical type with the specified order
+            drug_df['Handelsproduct Status'] = pd.Categorical(
+                drug_df['Handelsproduct Status'],
+                categories=status_order,
+                ordered=True
+            )
+            
+            # Sort the filtered DataFrame based on 'Handelsproduct Status'
+            filtered_df = filtered_df.sort_values('Handelsproduct Status')
+            
+            # Filters placed side by side using columns
+            st.subheader("Filters")
+            col1, col2 = st.columns(2)
+
+            with col1:
+                admin_route = st.multiselect(
+                    "Toedieningsweg",
+                    options=drug_df['THNM50'].dropna().unique(),
+                    key="admin_route"
+                )
+
+            with col2:
+                keto_status = st.multiselect(
+                    "Ketogene Status",
+                    options=drug_df['Handelsproduct Status'].dropna().unique(),
+                    key="keto_status"
+                )
+            
             if admin_route:
                 filtered_df = filtered_df[filtered_df['THNM50'].isin(admin_route)]
             if keto_status:
                 filtered_df = filtered_df[filtered_df['Handelsproduct Status'].isin(keto_status)]
             
             st.write(f"Aantal resultaten: {len(filtered_df)}")
-            for index, row in filtered_df.iterrows():
-                with st.expander(f"{row['NMNAAM']} ({row['ATOMS']})"):
-                    st.write(f"**Toedieningsweg:** {row['THNM50']}")
-                    st.write(f"**Ketogene Status:** {row['Handelsproduct Status']}")
-                    # Bookmark button
-                    if row['HPKODE'] in st.session_state.bookmarks:
-                        if st.button("Verwijder Bookmark", key=f"remove_{row['HPKODE']}"):
-                            st.session_state.bookmarks.remove(row['HPKODE'])
-                            st.success("Bookmark verwijderd.")
-                    else:
-                        if st.button("Bookmark Toevoegen", key=f"add_{row['HPKODE']}"):
-                            st.session_state.bookmarks.append(row['HPKODE'])
-                            st.success("Bookmark toegevoegd.")
-                    # Add to search history
-                    st.session_state.search_history.append({'term': search_term, 'timestamp': datetime.now()})
-    
+            if len(filtered_df) > 0:
+                for index, row in filtered_df.iterrows():
+                    # Get the status indicator
+                    status_indicator = get_status_indicator(row['Handelsproduct Status'])
+                    
+                    # Create the expander with the status indicator in the label
+                    with st.expander(f"{status_indicator} {row['NMNAAM']} (HPK: {row['HPKODE']})"):
+                        col1, col2, col3 = st.columns(3)
+
+                        with col1:
+                            st.write(f"**Werkzame stof:** {row['ATOMS']}")
+                            st.write(f"**Toedieningsweg:** {row['THNM50']}")
+                            
+
+                        with col2:
+                            st.write(f"**ATC:** {row['ATCODE']}")
+                            
+                        
+                        with col3:
+                            pass
+                    
+                        st.write(f"**Niet-ketogene hulpstoffen:** {row['Non-Ketoproof Excipients']}")
+                        st.write(f"**Onbekende status hulpstoffen:** {row['Unknown Excipients']}")
+
+                        # Optionally, display the status again inside the expander
+                        # st.markdown(f"**Ketogene Status:** {row['Handelsproduct Status']}", unsafe_allow_html=True)
+                        
+                        # Bookmark button
+                        if row['HPKODE'] in st.session_state.bookmarks:
+                            if st.button("Verwijder Bookmark", key=f"remove_{row['HPKODE']}"):
+                                st.session_state.bookmarks.remove(row['HPKODE'])
+                                st.success("Bookmark verwijderd.")
+                        else:
+                            if st.button("Bookmark Toevoegen", key=f"add_{row['HPKODE']}"):
+                                st.session_state.bookmarks.append(row['HPKODE'])
+                                st.success("Bookmark toegevoegd.")
+                        
+                        # Add to search history
+                        st.session_state.search_history.append({'term': search_term, 'timestamp': datetime.now()})
+            else:
+                st.info("Geen resultaten gevonden voor uw zoekopdracht.")
+
     elif choice == "Boekmarks":
         st.header("Uw Boekmarks")
         if st.session_state.bookmarks:
             bookmarked_drugs = drug_df[drug_df['HPKODE'].isin(st.session_state.bookmarks)]
             for index, row in bookmarked_drugs.iterrows():
-                with st.expander(f"{row['NMNAAM']} ({row['ATOMS']})"):
+                # Get the status indicator
+                status_indicator = get_status_indicator(row['Handelsproduct Status'])
+                
+                with st.expander(f"{status_indicator} {row['NMNAAM']} ({row['ATOMS']})"):
                     st.write(f"**Toedieningsweg:** {row['THNM50']}")
-                    st.write(f"**Ketogene Status:** {row['Handelsproduct Status']}")
+                    # Optionally, display the status again inside the expander
+                    # st.markdown(f"**Ketogene Status:** {row['Handelsproduct Status']}", unsafe_allow_html=True)
+                    
                     if st.button("Verwijder Bookmark", key=f"remove_bookmark_{row['HPKODE']}"):
                         st.session_state.bookmarks.remove(row['HPKODE'])
                         st.success("Bookmark verwijderd.")
@@ -155,7 +233,7 @@ def main_app():
         st.session_state.search_history = []
         st.session_state.last_active = datetime.now()
         st.success("Sessies zijn gereset.")
-    
+
 # Main Application Logic
 def main():
     st.set_page_config(page_title="Ketomed", page_icon="💊", layout="wide")
