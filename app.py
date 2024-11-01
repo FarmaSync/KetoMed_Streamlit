@@ -8,13 +8,9 @@ import yaml
 from yaml.loader import SafeLoader
 
 
-
-
-
 # Constants
 DRUGS_CSV = 'data/labeled_drugs.csv'
 INACTIVITY_TIMEOUT = 30  # in minutes
-
 
 
 
@@ -356,10 +352,10 @@ def main():
             yaml.dump(config, file, default_flow_style=False)
 
     elif st.session_state['authentication_status'] is False:
-        st.sidebar.error('Username/password is incorrect')
+        st.sidebar.error('Gebruikersnaam/wachtwoord is incorrect')
     
     elif st.session_state['authentication_status'] is None:
-        st.sidebar.warning('Please enter your username and password')
+        st.sidebar.warning('Voer a.u.b. je gebruikersnaam en wachtwoord in')
 
 
 if __name__ == "__main__":
