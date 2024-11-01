@@ -1,4 +1,5 @@
-streamlit==1.24.1
-pandas==2.2.3
+wheel
+streamlit
+pandas==2.0.0
 sqlalchemy==2.0.18
-streamlit-option-menu==0.3.4
+streamlit-option-menu
