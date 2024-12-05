@@ -332,7 +332,7 @@ def main():
     # Add logo
     logo_path = os.path.join('assets', 'logo.svg')  # Changed to .svg as per user's code
     if os.path.exists(logo_path):
-        st.sidebar.image(logo_path, use_column_width=True)
+        st.sidebar.image(logo_path, use_container_width=True)
     else:
         st.sidebar.write("![Logo](https://via.placeholder.com/150)")
     
