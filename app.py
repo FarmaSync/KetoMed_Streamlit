@@ -28,12 +28,16 @@ def load_drug_data():
     df = pd.read_csv(DRUGS_CSV, encoding='latin-1')
     return df
 
-# Function to perform simple search (exact and substring matches)
-def simple_search(query, choices):
-    # Convert query to lowercase for case-insensitive search
-    query = query.lower()
-    # Filter choices that contain the query as a substring and ensure choice is a string
-    results = [choice for choice in choices if isinstance(choice, str) and query in choice.lower()]
+
+# Function to perform multi-keyword search (exact and substring matches with AND condition)
+def multi_keyword_search(query, choices):
+    # Split the query into individual keywords and convert to lowercase for case-insensitive search
+    keywords = query.lower().split()
+    # Filter choices that contain all keywords as substrings
+    results = [
+        choice for choice in choices 
+        if isinstance(choice, str) and all(keyword in choice.lower() for keyword in keywords)
+    ]
     return results
 
 # Define the desired order for Handelsproduct Status
@@ -120,9 +124,12 @@ def main_app():
     
     if choice == "Zoeken":
         st.header("Zoek naar een geneesmiddel")
+
         search_term = st.text_input("Voer merknaam, werkzame stof, ATC of HPK in")
+        minimal_number_of_characters = 3
+
         
-        if search_term:
+        if search_term and (len(search_term)>=minimal_number_of_characters):
             with st.spinner('Zoeken...'):
                 # Simple search on brand name, active component, drug ID, and ATC code
                 brand_names = drug_df['NMNAAM'].fillna('').tolist()
@@ -130,7 +137,7 @@ def main_app():
                 drug_id = drug_df['HPKODE'].fillna('').tolist()
                 atcode = drug_df['ATCODE'].fillna('').tolist()
                 combined = brand_names + active_components + drug_id + atcode
-                results = simple_search(search_term, combined)
+                results = multi_keyword_search(search_term, combined)
                 
                 # Retrieve matching rows
                 filtered_df = drug_df[
@@ -205,7 +212,9 @@ def main_app():
                     # Add to search history after all results are processed
                     st.session_state.search_history.append({'term': search_term, 'timestamp': datetime.now()})
                 else:
-                    st.info("Geen resultaten gevonden voor uw zoekopdracht.")
+                    st.info("Geen resultaten gevonden voor uw zoekopdracht.")         
+        else:
+            st.info(f"Voer minimaal {str(minimal_number_of_characters)} tekens in.")
 
     elif choice == "Favorieten":
         st.header("Uw Favorieten")
@@ -323,7 +332,7 @@ def main():
     # Add logo
     logo_path = os.path.join('assets', 'logo.svg')  # Changed to .svg as per user's code
     if os.path.exists(logo_path):
-        st.sidebar.image(logo_path, use_column_width=True)
+        st.sidebar.image(logo_path, use_container_width=True)
     else:
         st.sidebar.write("![Logo](https://via.placeholder.com/150)")
     
