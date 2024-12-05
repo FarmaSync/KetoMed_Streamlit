@@ -7,9 +7,81 @@ credentials:
     admin:
       email: jsmith@gmail.com
       failed_login_attempts: 0
-      first_name: Admin
-      last_name: Admin
       logged_in: false
+      name: Admin Admin
       password: $2b$12$Mz9s2Sy09QI4utCn2J8OheGX14a1kYskkQgWZBv8gfWVCTcfhkpVu
+      roles:
+      - viewer
+    gebruiker1:
+      email: 1@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker1
+      password: $2b$12$LJ4H3771d4wKW.6H/LjcnedS.byIPuuAzsPNeV8GimHebEmoeFRbq
+      roles:
+      - viewer
+    gebruiker10:
+      email: 10@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker10
+      password: $2b$12$DNbPezpXPbA3t7C6VX8LEu7Uo3cz2Wz2LXesHCW3hl.VOMk5Ek0ly
+      roles:
+      - viewer
+    gebruiker2:
+      email: 2@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker2
+      password: $2b$12$5qQwecYf1Lquapvb2DsLkehY/1Z8MFBMYMfEf5GGk8F30G2D9Pis.
+      roles:
+      - viewer
+    gebruiker3:
+      email: 3@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker3
+      password: $2b$12$e.jiqioAQdslbvBIDzMbvOIAEHAOsF/VsL2fjj3ApHm8Bl189xWwy
+      roles:
+      - viewer
+    gebruiker4:
+      email: 4@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker4
+      password: $2b$12$Pd42lk33odjfkUVW1WuGnOUTxxCLkSgzB2/bVYPIxD/hbwXtTYCie
+      roles:
+      - viewer
+    gebruiker5:
+      Gebruiker6: null
+      email: 6@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker6
+      password: $2b$12$adOP0CQuRh6JGXXG8uYCoe9Y0msoBEPUqFf90GC3INJjlJKaAsoy6
+      roles:
+      - viewer
+    gebruiker7:
+      email: 7@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker7
+      password: $2b$12$tsdzEBIVKSuVFHByUY9eDui3JHpGMGu6yx3oJiKech6XuYJkvIuZy
+      roles:
+      - viewer
+    gebruiker8:
+      email: 8@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker8
+      password: $2b$12$dYkAO0tmmzaRDK5kJKVT8OMQrvQgRqk/K9MV5eJYZA6n1jp.XHNEu
+      roles:
+      - viewer
+    gebruiker9:
+      email: 9@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker9
+      password: $2b$12$PrfKHSaM//bpNaOSG/c0YuYgFxoxeHUM4gAt6vDGuf7KIbP.H2t/O
       roles:
       - viewer

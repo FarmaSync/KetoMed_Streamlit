@@ -84,8 +84,8 @@ def main_app():
     menu = ["Zoeken", 
             #"Favorieten", 
             #"Recent", 
-            "FAQ", 
-            "Voorwaarden", 
+            #"FAQ", 
+            #"Voorwaarden", 
             "Help",
             #"Reset Sessies"
             ]
@@ -267,10 +267,6 @@ def main_app():
             - **Toedieningsweg**: Selecteer één of meerdere toedieningswegen om de zoekresultaten te verfijnen.
             - **Ketogene Status**: Filter op **Ketoproof**, **Niet Ketoproof** of **Onbekend**.
         - Kies de gewenste filters om de resultaten aan te passen aan uw behoeften.
-        
-        #### 3. Favorieten Beheren
-        - Klik op **"Favoriet Toevoegen"** naast een geneesmiddel om het op te slaan.
-        - Ga naar de **"Favorieten"** sectie in de sidebar om uw opgeslagen geneesmiddelen te bekijken of te verwijderen.
 
         
         ### 📞 Contactinformatie
@@ -333,6 +329,7 @@ def main():
     logo_path = os.path.join('assets', 'logo.svg')  # Changed to .svg as per user's code
     if os.path.exists(logo_path):
         st.sidebar.image(logo_path, use_container_width=True)
+        st.sidebar.write('v0.1.2')
     else:
         st.sidebar.write("![Logo](https://via.placeholder.com/150)")
     
