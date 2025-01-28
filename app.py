@@ -329,7 +329,8 @@ def main():
     logo_path = os.path.join('assets', 'logo.svg')  # Changed to .svg as per user's code
     if os.path.exists(logo_path):
         st.sidebar.image(logo_path, use_container_width=True)
-        st.sidebar.write('v0.1.2')
+        st.sidebar.write('v0.1.3')
+        st.sidebar.write('G-Standaard v20230825')
     else:
         st.sidebar.write("![Logo](https://via.placeholder.com/150)")
     
