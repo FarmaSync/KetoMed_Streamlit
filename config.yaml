@@ -1,87 +1,174 @@
 cookie:
   expiry_days: 1
-  key: KetoMed_v0.01_20241101
+  key: KetoMed_v0.1.3
   name: A_KetoMed_Cookie
 credentials:
   usernames:
     admin:
-      email: jsmith@gmail.com
+      email: admin@example.com
       failed_login_attempts: 0
       logged_in: false
-      name: Admin Admin
-      password: $2b$12$Mz9s2Sy09QI4utCn2J8OheGX14a1kYskkQgWZBv8gfWVCTcfhkpVu
+      name: admin
+      password: $2b$12$3KcMYAq11w5xkqDH3s0cruDqwuwnZ4J4N2NWl47D4GgCjG.kO0uXC
       roles:
       - viewer
     gebruiker1:
-      email: 1@gmail.com
+      email: 1@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker1
-      password: $2b$12$LJ4H3771d4wKW.6H/LjcnedS.byIPuuAzsPNeV8GimHebEmoeFRbq
+      password: $2b$12$97BJPa.0n2AMlPl/D4qsIui8qGb/rGnjkKZTYYM7fd/Kqs4FaDWuu
       roles:
       - viewer
     gebruiker10:
-      email: 10@gmail.com
+      email: 10@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker10
-      password: $2b$12$DNbPezpXPbA3t7C6VX8LEu7Uo3cz2Wz2LXesHCW3hl.VOMk5Ek0ly
+      password: $2b$12$dE3zhhSVBb6Rkm04W5KVC.ivuAUDLOehIj2hshPYU2w6GojZyIqtK
+      roles:
+      - viewer
+    gebruiker11:
+      email: 11@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker11
+      password: $2b$12$S027Ws50JH4uCGx4pZoMIeCjD/XaRVZ89YLHqfF1XNxs5jQdz21jW
+      roles:
+      - viewer
+    gebruiker12:
+      email: 12@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker12
+      password: $2b$12$jgTxaN2FrVRrxNnmX4H0v.n2rj6sF0V2KqZCjsJe99HPUZdZwjUAa
+      roles:
+      - viewer
+    gebruiker13:
+      email: 13@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker13
+      password: $2b$12$93g8Y1CMqr5RHhRJwamlZ.U01XSqT8WiA.UnzxzIxOYkcNlCWYH76
+      roles:
+      - viewer
+    gebruiker14:
+      email: 14@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker14
+      password: $2b$12$JRajBtJRp59tiLI8rnAoAOwyQZEF3ohpBWz6plknsjsanHLzayAli
+      roles:
+      - viewer
+    gebruiker15:
+      email: 15@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker15
+      password: $2b$12$EhgsyhgFbyl22/iCz0KBJeHPBBr7lDJP.eEAzpMTuSMsExOuC4lZq
+      roles:
+      - viewer
+    gebruiker16:
+      email: 16@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker16
+      password: $2b$12$SeWFkE8rsczzmjAAYJbvheNCZYULIJMgkS0uhYAEssM7aHHFRixNO
+      roles:
+      - viewer
+    gebruiker17:
+      email: 17@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker17
+      password: $2b$12$mkwRwUtX3RGXVbY9Hp4GduV/t6jbrhy9atZ6mph7kBa4yJ4alpBwO
+      roles:
+      - viewer
+    gebruiker18:
+      email: 18@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker18
+      password: $2b$12$siMC4hOWlxzZsgdQNjF/mOlo6qLaUD5mCRq3SIehsCoDFvX47BMAm
+      roles:
+      - viewer
+    gebruiker19:
+      email: 19@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker19
+      password: $2b$12$iwNvmtBzoS5Mp7.45JcDV.XS7jPtoK.2G73foPti18IG6DiwxE0yS
       roles:
       - viewer
     gebruiker2:
-      email: 2@gmail.com
+      email: 2@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker2
-      password: $2b$12$5qQwecYf1Lquapvb2DsLkehY/1Z8MFBMYMfEf5GGk8F30G2D9Pis.
+      password: $2b$12$agESoch4R.28ZsWwnk3X7.dfcsxNrsDasNcZ1SY8GwX..7KVlyVmK
+      roles:
+      - viewer
+    gebruiker20:
+      email: 20@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker20
+      password: $2b$12$DwAbkHtkEvb4FBYMfRZHrur5UcF/V9MLuTVjbnvtAVOBSWrIA5FX.
       roles:
       - viewer
     gebruiker3:
-      email: 3@gmail.com
+      email: 3@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker3
-      password: $2b$12$e.jiqioAQdslbvBIDzMbvOIAEHAOsF/VsL2fjj3ApHm8Bl189xWwy
+      password: $2b$12$iDqJV0ZyZB1hGDjR2VJLvu9P2Cn3.BzC5nUSh/2uS2pT123dlqLca
       roles:
       - viewer
     gebruiker4:
-      email: 4@gmail.com
+      email: 4@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker4
-      password: $2b$12$Pd42lk33odjfkUVW1WuGnOUTxxCLkSgzB2/bVYPIxD/hbwXtTYCie
+      password: $2b$12$Le1bSdg/p51ioKyr8dTj0e4hGFHQP3lXI3KICUH6Kj/ba1bEC8XXW
       roles:
       - viewer
     gebruiker5:
-      Gebruiker6: null
-      email: 6@gmail.com
+      email: 5@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Gebruiker5
+      password: $2b$12$8MIVYfD5QmfE85fJHTBHt.upihOsWJQdUh9ZUlwqMtjtFQT3.mJIO
+      roles:
+      - viewer
+    gebruiker6:
+      email: 6@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker6
-      password: $2b$12$adOP0CQuRh6JGXXG8uYCoe9Y0msoBEPUqFf90GC3INJjlJKaAsoy6
+      password: $2b$12$x5oQJBDMZH1tixYbK85qmOzMvGinIVBB2uafOLnu/dCncyZdwjh7q
       roles:
       - viewer
     gebruiker7:
-      email: 7@gmail.com
+      email: 7@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker7
-      password: $2b$12$tsdzEBIVKSuVFHByUY9eDui3JHpGMGu6yx3oJiKech6XuYJkvIuZy
+      password: $2b$12$AzU9RDT4d0EvOfSMiupk9uJ6ZZAGIBHx6uiSto6lVcQEKsjEtHsnm
       roles:
       - viewer
     gebruiker8:
-      email: 8@gmail.com
+      email: 8@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker8
-      password: $2b$12$dYkAO0tmmzaRDK5kJKVT8OMQrvQgRqk/K9MV5eJYZA6n1jp.XHNEu
+      password: $2b$12$0dr/J6XKyL4nbM2gzMNXpu.eiybibYRjdka031TXAzZQMqlMpdpDa
       roles:
       - viewer
     gebruiker9:
-      email: 9@gmail.com
+      email: 9@example.com
       failed_login_attempts: 0
       logged_in: false
       name: Gebruiker9
-      password: $2b$12$PrfKHSaM//bpNaOSG/c0YuYgFxoxeHUM4gAt6vDGuf7KIbP.H2t/O
+      password: $2b$12$mNAsGp4Db7pW/e2baKrjAOCdA6Y4KUCmELrG3E.lezIupMrp5hajW
       roles:
       - viewer
